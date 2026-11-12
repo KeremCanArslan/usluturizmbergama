@@ -185,6 +185,7 @@ p { margin: 0 0 1rem; }
 .sayfa-ust .teklif-alani { padding: 0; background: none; }
 .sayfa-ust .teklif-kutu { margin: 0; max-width: none; background: var(--zemin); }
 .sayfa-ust-foto img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.sayfa-ust-foto--genis img { aspect-ratio: auto; }
 .taksi-not { margin-top: 1rem; color: var(--metin-2); }
 .yan-foto { display: none; margin-top: 1.5rem; }
 
