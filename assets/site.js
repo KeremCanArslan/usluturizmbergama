@@ -23,6 +23,12 @@
     return '';
   }
 
+  // Sayfa başına bir istek kimliği: sunucu cevabı kaybolup kişi yeniden basarsa kayıt ikinci kez yazılmaz.
+  function yeniKimlik() {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+  }
+
   function olcum(ad, ek) {
     if (typeof window.gtag === 'function') window.gtag('event', ad, ek || {});
   }
@@ -86,6 +92,7 @@
     var kvkkHata = form.parentNode.querySelector('#kvkk-hata');
     var durum = form.querySelector('.form-durum');
     var dugme = form.querySelector('button[type="submit"]');
+    var istekKimligi = yeniKimlik();
 
     KAMPANYA_ALANLARI.forEach(function (ad) {
       if (form.elements[ad]) form.elements[ad].value = oku('kampanya_' + ad);
@@ -119,6 +126,7 @@
 
       var veri = new FormData(form);
       veri.set('sayfa', location.pathname);
+      veri.set('istek', istekKimligi);
       veri.delete('web');
 
       if (!FORM_ADRESI) { sonucGoster(form, 'yedek', veri); return; }
