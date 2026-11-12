@@ -202,6 +202,8 @@ p { margin: 0 0 1rem; }
 .galeri figure { margin: 0; }
 .galeri img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .galeri-son { margin-top: 2rem; }
+.galeri-not { margin: 0 0 1rem; color: var(--metin-2); }
+.galeri figcaption { margin-top: .5rem; font-size: .95rem; color: var(--metin-2); }
 
 .iletisim { margin: 1.5rem 0 0; display: grid; gap: .85rem; }
 .iletisim dt { font: 700 1.15rem/1.2 var(--kosul); letter-spacing: .02em; }
