@@ -164,7 +164,7 @@ p { margin: 0 0 1rem; }
 .alan input::placeholder, .alan textarea::placeholder { color: #7a8591; }
 .alan input[aria-invalid="true"] { border-color: var(--hata); }
 .secimler { border: 0; padding: 0; }
-.secim { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; margin-right: 1.25rem; }
+.secim { display: flex; align-items: center; gap: .45rem; min-height: 44px; }
 .secim input, .onay input { width: 20px; height: 20px; accent-color: var(--lacivert); margin: 0; }
 .onay { display: flex; align-items: flex-start; gap: .6rem; margin: .5rem 0 .25rem; font-size: .98rem; }
 .onay input { flex: 0 0 auto; margin-top: .2rem; }
@@ -247,7 +247,7 @@ p { margin: 0 0 1rem; }
 @media (min-width: 600px) {
   .alan-cift { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
   .giris-metin, .giris-hat { padding-left: 32px; padding-right: 32px; }
-  .kap { padding: 0 32px; }
+  .kap { padding-left: 32px; padding-right: 32px; }
   .teklif-alani > .teklif-kutu { margin: 0 auto; }
 }
 
