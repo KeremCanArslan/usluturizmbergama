@@ -6,6 +6,11 @@
   var FORM_ADRESI = ayar.form || '';
   var WHATSAPP = ayar.wa || '';
   var ETIKET = ayar.etiket || '';
+  var DONUSUM = {
+    form: ayar.donusumForm || '',
+    telefon: ayar.donusumTelefon || '',
+    whatsapp: ayar.donusumWhatsapp || ''
+  };
   var KAMPANYA_ALANLARI = ['gclid', 'utm_source', 'utm_medium', 'utm_campaign'];
   var BEKLEME_MS = 30000;
 
@@ -33,6 +38,16 @@
     if (typeof window.gtag === 'function') window.gtag('event', ad, ek || {});
   }
 
+  // Google Ads dönüşümü (support.google.com/google-ads/answer/6331304): send_to = etiket kimliği/dönüşüm etiketi.
+  // Etiket ya da o türün dönüşüm etiketi boşsa gönderilmez, false döner.
+  function donusum(tur, ek) {
+    if (!ETIKET || !DONUSUM[tur] || typeof window.gtag !== 'function') return false;
+    var veri = { send_to: ETIKET + '/' + DONUSUM[tur] };
+    Object.keys(ek || {}).forEach(function (k) { veri[k] = ek[k]; });
+    window.gtag('event', 'conversion', veri);
+    return true;
+  }
+
   // Reklam bağlantısından gelen kampanya bilgisi oturum boyunca saklanır, forma eklenir.
   var parametreler = new URLSearchParams(location.search);
   KAMPANYA_ALANLARI.forEach(function (ad) {
@@ -43,7 +58,21 @@
   document.addEventListener('click', function (olay) {
     var baglanti = olay.target.closest('[data-olcum]');
     if (!baglanti) return;
-    olcum(baglanti.dataset.olcum === 'telefon' ? 'telefon_tiklamasi' : 'whatsapp_tiklamasi');
+    var tur = baglanti.dataset.olcum === 'telefon' ? 'telefon' : 'whatsapp';
+    olcum(tur === 'telefon' ? 'telefon_tiklamasi' : 'whatsapp_tiklamasi');
+    // Yeni sekme açan tıklama (Ctrl, Cmd, Shift, orta tuş) olduğu gibi geçer.
+    if (olay.defaultPrevented || olay.button !== 0 || olay.metaKey || olay.ctrlKey || olay.shiftKey || olay.altKey) {
+      donusum(tur);
+      return;
+    }
+    // Sayfa hemen değişirse istek yarıda kalabilir; Google'ın örneğindeki gibi gidiş geri çağrıda yapılır.
+    var adres = baglanti.href;
+    var gitti = false;
+    function git() { if (!gitti) { gitti = true; window.location.href = adres; } }
+    if (donusum(tur, { event_callback: git, event_timeout: 800 })) {
+      olay.preventDefault();
+      setTimeout(git, 1000); // etiket betiği hiç yüklenmediyse geri çağrı gelmez
+    }
   });
 
   function telefonGecerli(metin) {
@@ -139,6 +168,7 @@
           if (!sonuc || sonuc.durum !== 'tamam') return Promise.reject('cevap');
           sakla('son_gonderim', String(Date.now()));
           olcum('teklif_formu', { hizmet: veri.get('hizmet') || '' });
+          donusum('form', { transaction_id: istekKimligi });
           sonucGoster(form, 'tamam');
         })
         .catch(function () { sonucGoster(form, 'yedek', veri); })
