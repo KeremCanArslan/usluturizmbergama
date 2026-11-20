@@ -199,6 +199,11 @@ p { margin: 0 0 1rem; }
 .plan dt { font: 700 1.5rem/1.1 var(--kosul); }
 .plan dd { margin: .3rem 0 0; color: var(--metin-2); }
 
+.sss { display: grid; gap: 0 3rem; }
+.sss-madde { padding: 1.25rem 0 1.1rem; border-top: 2px solid var(--lacivert); }
+.sss-madde h3 { margin: 0; font: 700 1.4rem/1.15 var(--kosul); }
+.sss-madde p { margin: .5rem 0 0; max-width: 58ch; color: var(--metin-2); }
+
 .galeri { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
 .galeri figure { margin: 0; }
 .galeri img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
@@ -261,6 +266,7 @@ p { margin: 0 0 1rem; }
   .adimlar { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
   .plan { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
   .bolgeler { grid-template-columns: 1fr 1fr; }
+  .sss { grid-template-columns: 1fr 1fr; }
   .bolge:nth-child(2) { border-top-color: transparent; }
   .alt-ic { grid-template-columns: 1.4fr 1fr 1fr; }
   .galeri--iki { grid-template-columns: 1fr 1fr; }
